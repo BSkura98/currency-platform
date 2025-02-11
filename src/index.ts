@@ -1,3 +1,9 @@
-import { data } from "./data";
+import dotenv from "dotenv";
 
-console.log(JSON.stringify(data));
+import sequelize from "./database/database";
+
+dotenv.config();
+
+sequelize.sync().then(async () => {
+  console.log("Database is ready");
+});
