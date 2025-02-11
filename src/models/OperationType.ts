@@ -6,7 +6,7 @@ class OperationType extends Model {}
 
 OperationType.init(
   {
-    name: { type: DataTypes.STRING },
+    name: { type: DataTypes.STRING, unique: true },
     commission: { type: DataTypes.FLOAT },
   },
   {
