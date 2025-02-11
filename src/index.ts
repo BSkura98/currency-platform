@@ -1,3 +1,8 @@
-let hello: string = "Hello world";
+import { User } from "./entities/User";
 
-console.log(hello);
+let user: User = {
+  id: "1",
+  accounts: [],
+};
+
+console.log(user);
