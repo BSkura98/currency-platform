@@ -1,8 +1,3 @@
-import { User } from "./entities/User";
+import { data } from "./data";
 
-let user: User = {
-  id: "1",
-  accounts: [],
-};
-
-console.log(user);
+console.log(JSON.stringify(data));
