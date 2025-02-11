@@ -13,7 +13,6 @@ export const setOperationTypeCommission = async (
   const operationType = await OperationType.findOne({
     where: { id: operationTypeId },
   });
-  console.log(operationType?.dataValues);
 
   if (!operationType) {
     throw new NotFoundError("Operation type with such id does not exist");
