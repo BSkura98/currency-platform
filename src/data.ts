@@ -71,7 +71,7 @@ let users: User[] = [
   },
 ];
 
-export let data: Platform = {
+export let appData: Platform = {
   operationTypes: operationTypes,
   currencies: currencies,
   users: users,

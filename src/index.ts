@@ -1,3 +1,6 @@
-import { data } from "./data";
+import { appData } from "./data";
+import { setExchangeRate } from "./services/Currency/service";
 
-console.log(JSON.stringify(data));
+setExchangeRate("EUR", 5.13);
+
+console.log(JSON.stringify(appData));
