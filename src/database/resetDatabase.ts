@@ -37,8 +37,8 @@ sequelize.sync().then(async () => {
   currencies.forEach((currency) =>
     operationTypes.forEach(async (operationType) => {
       await Profit.create({
-        currencyId: currency.dataValues.id,
-        operationTypeId: operationType.dataValues.id,
+        currencyName: currency.dataValues.name,
+        operationTypeName: operationType.dataValues.name,
         amount: 0,
       });
     })

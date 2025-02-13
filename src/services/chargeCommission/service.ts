@@ -7,13 +7,10 @@ export const chargeCommission = async (
   operationName: string,
   currency: Currency
 ) => {
-  let operationType = await OperationType.findOne({
-    where: { name: operationName },
-  });
   let profit = await Profit.findOne({
     where: {
-      currencyId: currency.dataValues.id,
-      operationTypeId: operationType?.dataValues.id,
+      currencyName: currency.dataValues.name,
+      operationTypeName: operationName,
     },
   });
   return await profit?.update({ amount: profit.dataValues.amount + amount });
