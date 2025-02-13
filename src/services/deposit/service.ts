@@ -2,11 +2,12 @@ import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
+import { performTransaction } from "../../utils/performTransaction";
 
 export const deposit = async (
+  amount: number,
   userId: number,
-  currencyName: string,
-  amount: number
+  currencyName: string
 ) => {
   if (amount < 0) {
     throw new BadRequestError("Amount cannot be a negative number");
@@ -26,5 +27,14 @@ export const deposit = async (
     throw new NotFoundError("Account for given user has not been found");
   }
 
-  return account?.update({ balance: account.dataValues.balance + amount });
+  let updatedAccount = await performTransaction(
+    amount,
+    "Deposit",
+    currency,
+    (amountAfterCommission: number) =>
+      account?.update({
+        balance: account.dataValues.balance + amountAfterCommission,
+      })
+  );
+  return updatedAccount;
 };

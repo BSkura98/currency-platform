@@ -4,12 +4,13 @@ import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
 import { calculateAmountInCurrency } from "../../utils/calculateAmountInCurrency";
+import { performTransaction } from "../../utils/performTransaction";
 
 export const changeCurrency = async (
+  sourceAmount: number,
   userId: number,
   sourceCurrencyName: string,
-  targetCurrencyName: string,
-  sourceAmount: number
+  targetCurrencyName: string
 ) => {
   if (sourceAmount < 0) {
     throw new BadRequestError("Amount cannot be a negative number");
@@ -50,22 +51,26 @@ export const changeCurrency = async (
     );
   }
 
-  const transaction = await sequelize.transaction();
-  let sourceAccountUpdated;
-  try {
-    sourceAccountUpdated = await sourceAccount?.update({
-      balance: sourceAccount.dataValues.balance - sourceAmount,
-    });
-    await targetAccount?.update({
-      balance:
-        targetAccount.dataValues.balance +
-        calculateAmountInCurrency(sourceCurrency, targetCurrency, sourceAmount),
-    });
-    await transaction.commit();
-  } catch (error) {
-    await transaction.rollback();
-    throw error;
-  }
+  let updatedSourceAccount = await performTransaction(
+    sourceAmount,
+    "Currency change",
+    sourceCurrency,
+    async (amountAfterCommission) => {
+      let sourceAccountUpdated = await sourceAccount?.update({
+        balance: sourceAccount.dataValues.balance - sourceAmount,
+      });
+      await targetAccount?.update({
+        balance:
+          targetAccount.dataValues.balance +
+          calculateAmountInCurrency(
+            sourceCurrency,
+            targetCurrency,
+            amountAfterCommission
+          ),
+      });
+      return sourceAccountUpdated;
+    }
+  );
 
-  return sourceAccountUpdated;
+  return updatedSourceAccount;
 };

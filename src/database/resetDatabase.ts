@@ -18,16 +18,32 @@ sequelize.sync().then(async () => {
   await Profit.sync({ force: true });
   await User.sync({ force: true });
 
-  let currencies = [
-    await Currency.create({ name: "PLN", exchangeRateToPLN: 1 }),
-    await Currency.create({ name: "EUR", exchangeRateToPLN: 4.18 }),
-    await Currency.create({ name: "USD", exchangeRateToPLN: 4.05 }),
-  ];
+  let currencies = await Currency.bulkCreate([
+    { name: "PLN", exchangeRateToPLN: 1 },
+    { name: "EUR", exchangeRateToPLN: 4.18 },
+    { name: "USD", exchangeRateToPLN: 4.05 },
+  ]);
 
-  OperationType.create({ name: "Deposit", commission: 0.05 });
-  OperationType.create({ name: "Withdrawal", commission: 0.002 });
-  OperationType.create({ name: "Transfer", commission: 0.03 });
-  OperationType.create({ name: "Currency change", commission: 0.1 });
+  let operationTypes = await OperationType.bulkCreate([
+    {
+      name: "Deposit",
+      commission: 0.05,
+    },
+    { name: "Withdrawal", commission: 0.002 },
+    { name: "Transfer", commission: 0.03 },
+    { name: "Currency change", commission: 0.1 },
+  ]);
+
+  currencies.forEach((currency) =>
+    operationTypes.forEach(async (operationType) => {
+      await Profit.create({
+        currencyId: currency.dataValues.id,
+        operationTypeId: operationType.dataValues.id,
+        amount: 0,
+      });
+    })
+  );
+
   let users = [];
   for (let i = 0; i < 5; i++) {
     users.push(await User.create());
