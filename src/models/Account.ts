@@ -15,7 +15,10 @@ Account.init(
     modelName: "account",
   }
 );
-Account.belongsTo(Currency);
+Account.belongsTo(Currency, {
+  foreignKey: "currencyName",
+  targetKey: "name",
+});
 Account.hasMany(OperationRecord);
 OperationRecord.belongsTo(Account);
 

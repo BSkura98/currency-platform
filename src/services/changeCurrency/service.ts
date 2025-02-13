@@ -31,7 +31,7 @@ export const changeCurrency = async (
   }
 
   const sourceAccount = await Account.findOne({
-    where: { userId, currencyId: sourceCurrency.dataValues.id },
+    where: { userId, currencyName: sourceCurrency.dataValues.name },
   });
   if (!sourceAccount) {
     throw new NotFoundError(
@@ -43,7 +43,7 @@ export const changeCurrency = async (
   }
 
   const targetAccount = await Account.findOne({
-    where: { userId, currencyId: targetCurrency.dataValues.id },
+    where: { userId, currencyName: targetCurrency.dataValues.name },
   });
   if (!targetAccount) {
     throw new NotFoundError(

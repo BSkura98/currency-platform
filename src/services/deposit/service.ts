@@ -22,10 +22,10 @@ export const deposit = async (
   }
 
   const account = await Account.findOne({
-    where: { userId, currencyId: currency.dataValues.id },
+    where: { userId, currencyName },
   });
   if (!account) {
-    throw new NotFoundError("Account for given user has not been found");
+    throw new NotFoundError("Account has not been found");
   }
 
   let updatedAccount = await performTransaction(

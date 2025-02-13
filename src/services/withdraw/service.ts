@@ -22,7 +22,7 @@ export const withdraw = async (
   }
 
   const account = await Account.findOne({
-    where: { userId, currencyId: currency.dataValues.id },
+    where: { userId, currencyName },
   });
   if (!account) {
     throw new NotFoundError("Account for given user has not been found");

@@ -52,7 +52,7 @@ sequelize.sync().then(async () => {
     currencies.forEach((currency) =>
       Account.create({
         balance: 0,
-        currencyId: currency.dataValues.id,
+        currencyName: currency.dataValues.name,
         userId: user.dataValues.id,
       })
     )

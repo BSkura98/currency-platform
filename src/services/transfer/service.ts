@@ -23,7 +23,7 @@ export const transfer = async (
   }
 
   const sourceAccount = await Account.findOne({
-    where: { userId: sourceUserId, currencyId: currency.dataValues.id },
+    where: { userId: sourceUserId, currencyName },
   });
   if (!sourceAccount) {
     throw new NotFoundError(
@@ -37,7 +37,7 @@ export const transfer = async (
   }
 
   const targetAccount = await Account.findOne({
-    where: { userId: targetUserId, currencyId: currency.dataValues.id },
+    where: { userId: targetUserId, currencyName },
   });
   if (!targetAccount) {
     throw new NotFoundError(
