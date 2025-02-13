@@ -6,8 +6,6 @@ export const createOperationRecord = async (
   account: Account,
   operationTypeName: string
 ) => {
-  console.log(operationTypeName);
-
   return OperationRecord.create({
     amount,
     balance: account.dataValues.balance,
