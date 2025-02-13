@@ -2,7 +2,7 @@ import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
-import { performChargableOperation } from "../../utils/performChargableOperation";
+import { performTransaction } from "../../utils/performTransaction";
 
 export const deposit = async (
   amount: number,
@@ -27,7 +27,7 @@ export const deposit = async (
     throw new NotFoundError("Account for given user has not been found");
   }
 
-  let updatedAccount = await performChargableOperation(
+  let updatedAccount = await performTransaction(
     amount,
     "Deposit",
     currency,

@@ -2,11 +2,12 @@ import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
+import { performTransaction } from "../../utils/performTransaction";
 
 export const withdraw = async (
+  amount: number,
   userId: number,
-  currencyName: string,
-  amount: number
+  currencyName: string
 ) => {
   if (amount < 0) {
     throw new BadRequestError("Amount cannot be a negative number");
@@ -32,5 +33,14 @@ export const withdraw = async (
     );
   }
 
-  return account?.update({ balance: account.dataValues.balance - amount });
+  let updatedAccount = await performTransaction(
+    amount,
+    "Withdrawal",
+    currency,
+    () =>
+      account?.update({
+        balance: account.dataValues.balance - amount,
+      })
+  );
+  return updatedAccount;
 };

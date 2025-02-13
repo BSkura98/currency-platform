@@ -5,7 +5,7 @@ import { calculateCommission } from "../services/calculateCommission/service";
 import sequelize from "../database/database";
 import { chargeCommission } from "../services/chargeCommission/service";
 
-export const performChargableOperation = async <T extends Model>(
+export const performTransaction = async <T extends Model>(
   amount: number,
   operationName: string,
   currency: Currency,

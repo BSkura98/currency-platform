@@ -3,11 +3,12 @@ import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
+import { performTransaction } from "../../utils/performTransaction";
 
 export const transfer = async (
+  amount: number,
   sourceUserId: number,
   targetUserId: number,
-  amount: number,
   currencyName: string
 ) => {
   if (amount < 0) {
@@ -44,20 +45,20 @@ export const transfer = async (
     );
   }
 
-  const transaction = await sequelize.transaction();
-  let sourceAccountUpdated;
-  try {
-    sourceAccountUpdated = await sourceAccount?.update({
-      balance: sourceAccount.dataValues.balance - amount,
-    });
-    await targetAccount?.update({
-      balance: targetAccount.dataValues.balance + amount,
-    });
-    await transaction.commit();
-  } catch (error) {
-    await transaction.rollback();
-    throw error;
-  }
+  let updatedSourceAccount = await performTransaction(
+    amount,
+    "Transfer",
+    currency,
+    async (amountAfterCommission) => {
+      let sourceAccountUpdated = await sourceAccount?.update({
+        balance: sourceAccount.dataValues.balance - amount,
+      });
+      await targetAccount?.update({
+        balance: targetAccount.dataValues.balance + amountAfterCommission,
+      });
+      return sourceAccountUpdated;
+    }
+  );
 
-  return sourceAccountUpdated;
+  return updatedSourceAccount;
 };
