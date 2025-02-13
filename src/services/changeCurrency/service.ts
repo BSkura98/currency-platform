@@ -1,10 +1,10 @@
-import sequelize from "../../database/database";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
 import { calculateAmountInCurrency } from "../../utils/calculateAmountInCurrency";
 import { performTransaction } from "../../utils/performTransaction";
+import { createOperationRecord } from "../createOperationRecord/service";
 
 export const changeCurrency = async (
   sourceAmount: number,
@@ -68,6 +68,16 @@ export const changeCurrency = async (
             amountAfterCommission
           ),
       });
+      await createOperationRecord(
+        -sourceAmount,
+        sourceAccount,
+        "Currency change"
+      );
+      await createOperationRecord(
+        amountAfterCommission,
+        targetAccount,
+        "Currency change"
+      );
       return sourceAccountUpdated;
     }
   );

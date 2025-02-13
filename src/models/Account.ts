@@ -2,7 +2,7 @@ import { Model, DataTypes } from "sequelize";
 
 import sequelize from "../database/database";
 import Currency from "./Currency";
-import Operation from "./Operation";
+import OperationRecord from "./OperationRecord";
 
 class Account extends Model {}
 
@@ -16,7 +16,7 @@ Account.init(
   }
 );
 Account.belongsTo(Currency);
-Account.hasMany(Operation);
-Operation.belongsTo(Account);
+Account.hasMany(OperationRecord);
+OperationRecord.belongsTo(Account);
 
 export default Account;
