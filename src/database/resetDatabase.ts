@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import sequelize from "./database";
 import Currency from "../models/Currency";
 import Account from "../models/Account";
-import Operation from "../models/Operation";
+import OperationRecord from "../models/OperationRecord";
 import OperationType from "../models/OperationType";
 import Profit from "../models/Profit";
 import User from "../models/User";
@@ -13,7 +13,7 @@ dotenv.config();
 sequelize.sync().then(async () => {
   await Account.sync({ force: true });
   await Currency.sync({ force: true });
-  await Operation.sync({ force: true });
+  await OperationRecord.sync({ force: true });
   await OperationType.sync({ force: true });
   await Profit.sync({ force: true });
   await User.sync({ force: true });

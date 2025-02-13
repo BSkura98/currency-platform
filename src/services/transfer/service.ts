@@ -1,9 +1,9 @@
-import sequelize from "../../database/database";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
 import { performTransaction } from "../../utils/performTransaction";
+import { createOperationRecord } from "../createOperationRecord/service";
 
 export const transfer = async (
   amount: number,
@@ -56,6 +56,12 @@ export const transfer = async (
       await targetAccount?.update({
         balance: targetAccount.dataValues.balance + amountAfterCommission,
       });
+      await createOperationRecord(-amount, sourceAccount, "Transfer");
+      await createOperationRecord(
+        amountAfterCommission,
+        targetAccount,
+        "Transfer"
+      );
       return sourceAccountUpdated;
     }
   );

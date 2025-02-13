@@ -1,22 +1,23 @@
 import { Model, DataTypes } from "sequelize";
 
 import sequelize from "../database/database";
-import Account from "./Account";
 import OperationType from "./OperationType";
 
-class Operation extends Model {}
+class OperationRecord extends Model {}
 
-Operation.init(
+OperationRecord.init(
   {
     amount: { type: DataTypes.FLOAT },
     balance: { type: DataTypes.FLOAT },
-    date: { type: DataTypes.DATE },
   },
   {
     sequelize,
-    modelName: "operation",
+    modelName: "operationRecord",
   }
 );
-Operation.belongsTo(OperationType);
+OperationRecord.belongsTo(OperationType, {
+  foreignKey: "operationTypeName",
+  targetKey: "name",
+});
 
-export default Operation;
+export default OperationRecord;

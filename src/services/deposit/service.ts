@@ -3,6 +3,7 @@ import { NotFoundError } from "../../errors/NotFoundError";
 import Account from "../../models/Account";
 import Currency from "../../models/Currency";
 import { performTransaction } from "../../utils/performTransaction";
+import { createOperationRecord } from "../createOperationRecord/service";
 
 export const deposit = async (
   amount: number,
@@ -31,10 +32,13 @@ export const deposit = async (
     amount,
     "Deposit",
     currency,
-    (amountAfterCommission: number) =>
-      account?.update({
+    async (amountAfterCommission: number) => {
+      let updatedAccount = account?.update({
         balance: account.dataValues.balance + amountAfterCommission,
-      })
+      });
+      await createOperationRecord(amount, account, "Deposit");
+      return updatedAccount;
+    }
   );
   return updatedAccount;
 };
