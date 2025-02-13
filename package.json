@@ -5,7 +5,7 @@
     "build": "tsc --build",
     "start": "node ./dist/index.js",
     "start:dev": "nodemon ./src/index.ts",
-    "resetDatabase": "tsc --build && node ./dist/resetDatabase.js"
+    "resetDatabase": "tsc --build && node ./dist/database/resetDatabase.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.9",
