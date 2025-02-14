@@ -13,5 +13,6 @@ User.init(
   }
 );
 User.hasMany(Account);
+Account.belongsTo(User);
 
 export default User;

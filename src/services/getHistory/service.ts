@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import Account from "../../models/Account";
 import OperationRecord from "../../models/OperationRecord";
 import { createWhereFilter } from "../../utils/createWhereFilter";
+import User from "../../models/User";
 
 interface Parameters {
   operationTypeName?: string;
@@ -40,6 +41,7 @@ export const getHistory = async ({
         model: Account,
         required: true,
         where: accountWhere,
+        include: [{ model: User, required: true }],
       },
     ],
   });

@@ -12,8 +12,8 @@ export const changeCurrency = async (
   sourceCurrencyName: string,
   targetCurrencyName: string
 ) => {
-  if (sourceAmount < 0) {
-    throw new BadRequestError("Amount cannot be a negative number");
+  if (sourceAmount < 0 || isNaN(sourceAmount)) {
+    throw new BadRequestError("Amount must be a positive number");
   }
 
   const sourceCurrency = await Currency.findOne({
@@ -53,7 +53,7 @@ export const changeCurrency = async (
 
   let updatedSourceAccount = await performTransaction(
     sourceAmount,
-    "Currency change",
+    "currency change",
     sourceCurrency,
     async (amountAfterCommission) => {
       let sourceAccountUpdated = await sourceAccount?.update({
@@ -71,12 +71,12 @@ export const changeCurrency = async (
       await createOperationRecord(
         -sourceAmount,
         sourceAccount,
-        "Currency change"
+        "currency change"
       );
       await createOperationRecord(
         amountAfterCommission,
         targetAccount,
-        "Currency change"
+        "currency change"
       );
       return sourceAccountUpdated;
     }

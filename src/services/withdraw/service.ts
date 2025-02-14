@@ -10,8 +10,8 @@ export const withdraw = async (
   userId: number,
   currencyName: string
 ) => {
-  if (amount < 0) {
-    throw new BadRequestError("Amount cannot be a negative number");
+  if (amount < 0 || isNaN(amount)) {
+    throw new BadRequestError("Amount must be a positive number");
   }
 
   const currency = await Currency.findOne({
@@ -36,13 +36,13 @@ export const withdraw = async (
 
   let updatedAccount = await performTransaction(
     amount,
-    "Withdrawal",
+    "withdrawal",
     currency,
     async () => {
       let updatedAccount = await account?.update({
         balance: account.dataValues.balance - amount,
       });
-      await createOperationRecord(-amount, account, "Withdrawal");
+      await createOperationRecord(-amount, account, "withdrawal");
       return updatedAccount;
     }
   );
