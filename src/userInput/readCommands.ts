@@ -11,7 +11,7 @@ import { getListOfCommands } from "./getListOfCommands";
 import { depositHandler } from "./commandHandlers/deposit";
 import { withdrawHandler } from "./commandHandlers/withdraw";
 import { transferHandler } from "./commandHandlers/transfer";
-import { getHistoryHandler } from "./commandHandlers/history";
+import { getHistoryHandler } from "./commandHandlers/getHistory";
 import { getUserBalanceHandler } from "./commandHandlers/getUserBalance";
 import { getAccountHistoryHandler } from "./commandHandlers/getAccountHistory";
 import { getProfitInfoHandler } from "./commandHandlers/getProfitInfo";
