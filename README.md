@@ -2,7 +2,7 @@
 This is a platform which simulates money transfers and currency exchanges.
 
 ## How to run
-1. Run `npm run install` to install all dependencies
+1. Run `npm install` to install all dependencies
 2. Run `npm run build` to compile TypeScript files to JavaScript
 3. Run `npm run resetDatabase` to create initial data (users, accounts, currencies etc.) in database (this command can be also used to reset database)
 4. Run `npm run start` to run the application
