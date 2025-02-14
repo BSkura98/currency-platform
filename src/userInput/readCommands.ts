@@ -9,24 +9,18 @@ import { getProfit } from "../services/getProfit/service";
 import { getUsers } from "../services/getUsers/service";
 import { getListOfCommands } from "./getListOfCommands";
 import { depositHandler } from "./commandHandlers/deposit";
+import { withdrawHandler } from "./commandHandlers/withdraw";
+import { transferHandler } from "./commandHandlers/transfer";
+import { getHistoryHandler } from "./commandHandlers/history";
 
 const prompt = promptSync({ sigint: true });
 
 const operations = {
-  deposit: async (args: string[]) => depositHandler(args),
-  withdraw: async (args: string[]) =>
-    withdraw(Number(args[1]), Number(args[2]), args[3]),
-  transfer: async (args: string[]) =>
-    transfer(Number(args[1]), Number(args[2]), Number(args[3]), args[4]),
-  changeCurrency: async (args: string[]) =>
-    changeCurrency(Number(args[1]), Number(args[2]), args[3], args[4]),
-  history: async (args: string[]) =>
-    getHistory({
-      operationTypeName: args[1],
-      currencyName: args[2],
-      startDate: new Date(args[3]),
-      endDate: new Date(args[4]),
-    }),
+  deposit: depositHandler,
+  withdraw: withdrawHandler,
+  transfer: transferHandler,
+  changeCurrency: changeCurrency,
+  history: getHistoryHandler,
   getAccountBalance: async (args: string[]) => getAccounts(Number(args[1])),
   getAccountHistory: async (args: string[]) =>
     getHistory({ userId: Number(args[1]) }),
