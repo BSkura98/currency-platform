@@ -10,8 +10,8 @@ export const deposit = async (
   userId: number,
   currencyName: string
 ) => {
-  if (amount < 0) {
-    throw new BadRequestError("Amount cannot be a negative number");
+  if (amount < 0 || isNaN(amount)) {
+    throw new BadRequestError("Amount must be a positive number");
   }
 
   const currency = await Currency.findOne({

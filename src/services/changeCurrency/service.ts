@@ -12,8 +12,8 @@ export const changeCurrency = async (
   sourceCurrencyName: string,
   targetCurrencyName: string
 ) => {
-  if (sourceAmount < 0) {
-    throw new BadRequestError("Amount cannot be a negative number");
+  if (sourceAmount < 0 || isNaN(sourceAmount)) {
+    throw new BadRequestError("Amount must be a positive number");
   }
 
   const sourceCurrency = await Currency.findOne({
