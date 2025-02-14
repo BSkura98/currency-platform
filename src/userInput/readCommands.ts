@@ -12,6 +12,7 @@ import { depositHandler } from "./commandHandlers/deposit";
 import { withdrawHandler } from "./commandHandlers/withdraw";
 import { transferHandler } from "./commandHandlers/transfer";
 import { getHistoryHandler } from "./commandHandlers/history";
+import { getUserBalanceHandler } from "./commandHandlers/getUserBalance";
 
 const prompt = promptSync({ sigint: true });
 
@@ -21,7 +22,7 @@ const operations = {
   transfer: transferHandler,
   changeCurrency: changeCurrency,
   history: getHistoryHandler,
-  getAccountBalance: async (args: string[]) => getAccounts(Number(args[1])),
+  getUserBalance: getUserBalanceHandler,
   getAccountHistory: async (args: string[]) =>
     getHistory({ userId: Number(args[1]) }),
   getProfitInfo: async (args: string[]) => getProfit(args[1], args[2]),
