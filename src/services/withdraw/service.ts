@@ -36,13 +36,13 @@ export const withdraw = async (
 
   let updatedAccount = await performTransaction(
     amount,
-    "Withdrawal",
+    "withdrawal",
     currency,
     async () => {
       let updatedAccount = await account?.update({
         balance: account.dataValues.balance - amount,
       });
-      await createOperationRecord(-amount, account, "Withdrawal");
+      await createOperationRecord(-amount, account, "withdrawal");
       return updatedAccount;
     }
   );

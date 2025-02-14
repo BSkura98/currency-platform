@@ -26,12 +26,12 @@ sequelize.sync().then(async () => {
 
   let operationTypes = await OperationType.bulkCreate([
     {
-      name: "Deposit",
+      name: "deposit",
       commission: 0.05,
     },
-    { name: "Withdrawal", commission: 0.002 },
-    { name: "Transfer", commission: 0.03 },
-    { name: "Currency change", commission: 0.1 },
+    { name: "withdrawal", commission: 0.002 },
+    { name: "transfer", commission: 0.03 },
+    { name: "currency change", commission: 0.1 },
   ]);
 
   currencies.forEach((currency) =>

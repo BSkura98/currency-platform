@@ -1,4 +1,3 @@
-import { changeCurrency } from "../../services/changeCurrency/service";
 import { getAccounts } from "../../services/getAccounts/service";
 
 export const getUserBalanceHandler = async (args: string[]) => {

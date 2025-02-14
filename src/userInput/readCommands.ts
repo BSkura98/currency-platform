@@ -5,7 +5,7 @@ import { transfer } from "../services/transfer/service";
 import { changeCurrency } from "../services/changeCurrency/service";
 import { getHistory } from "../services/getHistory/service";
 import { getAccounts } from "../services/getAccounts/service";
-import { getProfit } from "../services/getProfit/service";
+import { getProfits } from "../services/getProfits/service";
 import { getUsers } from "../services/getUsers/service";
 import { getListOfCommands } from "./getListOfCommands";
 import { depositHandler } from "./commandHandlers/deposit";
@@ -14,6 +14,7 @@ import { transferHandler } from "./commandHandlers/transfer";
 import { getHistoryHandler } from "./commandHandlers/history";
 import { getUserBalanceHandler } from "./commandHandlers/getUserBalance";
 import { getAccountHistoryHandler } from "./commandHandlers/getAccountHistory";
+import { getProfitInfoHandler } from "./commandHandlers/getProfitInfo";
 
 const prompt = promptSync({ sigint: true });
 
@@ -25,7 +26,7 @@ const operations = {
   history: getHistoryHandler,
   getUserBalance: getUserBalanceHandler,
   getAccountHistory: getAccountHistoryHandler,
-  getProfitInfo: async (args: string[]) => getProfit(args[1], args[2]),
+  getProfitInfo: getProfitInfoHandler,
   getUsers: async (args: string[]) => getUsers(Number(args[1])),
   help: (args: string[]) => getListOfCommands(),
 };

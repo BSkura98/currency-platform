@@ -47,7 +47,7 @@ export const transfer = async (
 
   let updatedSourceAccount = await performTransaction(
     amount,
-    "Transfer",
+    "transfer",
     currency,
     async (amountAfterCommission) => {
       let sourceAccountUpdated = await sourceAccount?.update({
@@ -56,11 +56,11 @@ export const transfer = async (
       await targetAccount?.update({
         balance: targetAccount.dataValues.balance + amountAfterCommission,
       });
-      await createOperationRecord(-amount, sourceAccount, "Transfer");
+      await createOperationRecord(-amount, sourceAccount, "transfer");
       await createOperationRecord(
         amountAfterCommission,
         targetAccount,
-        "Transfer"
+        "transfer"
       );
       return sourceAccountUpdated;
     }

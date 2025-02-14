@@ -11,21 +11,21 @@ export const readInitialData = async () => {
   const eurExchangeRate = prompt("Enter the EUR exchange rate (in PLN): ");
   await setExchangeRate("EUR", Number(eurExchangeRate));
   const depositCommissionRate = prompt("Enter the deposit commission rate: ");
-  await setOperationTypeCommission("Deposit", Number(depositCommissionRate));
+  await setOperationTypeCommission("deposit", Number(depositCommissionRate));
   const withdrawalCommissionRate = prompt(
     "Enter the withdrawal commission rate: "
   );
   await setOperationTypeCommission(
-    "Withdrawal",
+    "withdrawal",
     Number(withdrawalCommissionRate)
   );
   const transferCommissionRate = prompt("Enter the transfer commission rate: ");
-  await setOperationTypeCommission("Transfer", Number(transferCommissionRate));
+  await setOperationTypeCommission("transfer", Number(transferCommissionRate));
   const currencyChangeCommissionRate = prompt(
     "Enter the currency change commission rate: "
   );
   await setOperationTypeCommission(
-    "Currency change",
+    "currency change",
     Number(currencyChangeCommissionRate)
   );
 };

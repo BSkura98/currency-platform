@@ -30,13 +30,13 @@ export const deposit = async (
 
   let updatedAccount = await performTransaction(
     amount,
-    "Deposit",
+    "deposit",
     currency,
     async (amountAfterCommission: number) => {
       let updatedAccount = account?.update({
         balance: account.dataValues.balance + amountAfterCommission,
       });
-      await createOperationRecord(amount, account, "Deposit");
+      await createOperationRecord(amount, account, "deposit");
       return updatedAccount;
     }
   );
