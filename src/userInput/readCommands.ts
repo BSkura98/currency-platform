@@ -1,13 +1,5 @@
 import promptSync from "prompt-sync";
-import { deposit } from "../services/deposit/service";
-import { withdraw } from "../services/withdraw/service";
-import { transfer } from "../services/transfer/service";
-import { changeCurrency } from "../services/changeCurrency/service";
-import { getHistory } from "../services/getHistory/service";
-import { getAccounts } from "../services/getAccounts/service";
-import { getProfits } from "../services/getProfits/service";
-import { getUsers } from "../services/getUsers/service";
-import { getListOfCommands } from "./getListOfCommands";
+
 import { depositHandler } from "./commandHandlers/deposit";
 import { withdrawHandler } from "./commandHandlers/withdraw";
 import { transferHandler } from "./commandHandlers/transfer";
@@ -17,6 +9,7 @@ import { getAccountHistoryHandler } from "./commandHandlers/getAccountHistory";
 import { getProfitInfoHandler } from "./commandHandlers/getProfitInfo";
 import { getUsersHandler } from "./commandHandlers/getUsers";
 import { helpHandler } from "./commandHandlers/help";
+import { changeCurrencyHandler } from "./commandHandlers/changeCurrency";
 
 const prompt = promptSync({ sigint: true });
 
@@ -24,7 +17,7 @@ const operations = {
   deposit: depositHandler,
   withdraw: withdrawHandler,
   transfer: transferHandler,
-  changeCurrency: changeCurrency,
+  changeCurrency: changeCurrencyHandler,
   getHistory: getHistoryHandler,
   getUserBalance: getUserBalanceHandler,
   getUserHistory: getAccountHistoryHandler,
