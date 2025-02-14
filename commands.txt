@@ -1,0 +1,13 @@
+- deposit <amount> <user id> <currency> - deposit money in given currency to the user with given id
+- withdraw <amount> <user id> <currency> - withdraw money in given currency from the user with given id
+- transfer <amount> <source user id> <target user id> <currency> - transfer money in the given currency from the source user to the target user
+- changeCurrency <amount> <user id> <currency from> <currency to> - change currency for the given user
+- getHistory <operation name?> <currency?> <start date?> <end date?> - get history with optional filter parameters
+- getUserBalance <user id> - get balances in all currencies for the user
+- getUserHistory <user id> - get history for all user accounts
+- getProfitInfo <currency?> - get information about platform profit
+- getUsers - get ids for all users
+- help
+Available currencies: PLN, USD, EUR
+Operation names for getHistory command: deposit, withdrawal, transfer, currency change
+Keep in mind that a commission is charged on each amount for deposit, withdrawal, transfer and currency change!

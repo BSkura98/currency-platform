@@ -16,6 +16,7 @@ import { getUserBalanceHandler } from "./commandHandlers/getUserBalance";
 import { getAccountHistoryHandler } from "./commandHandlers/getAccountHistory";
 import { getProfitInfoHandler } from "./commandHandlers/getProfitInfo";
 import { getUsersHandler } from "./commandHandlers/getUsers";
+import { helpHandler } from "./commandHandlers/help";
 
 const prompt = promptSync({ sigint: true });
 
@@ -24,12 +25,12 @@ const operations = {
   withdraw: withdrawHandler,
   transfer: transferHandler,
   changeCurrency: changeCurrency,
-  history: getHistoryHandler,
+  getHistory: getHistoryHandler,
   getUserBalance: getUserBalanceHandler,
-  getAccountHistory: getAccountHistoryHandler,
+  getUserHistory: getAccountHistoryHandler,
   getProfitInfo: getProfitInfoHandler,
   getUsers: getUsersHandler,
-  help: (args: string[]) => getListOfCommands(),
+  help: helpHandler,
 };
 
 export const readCommands = async () => {

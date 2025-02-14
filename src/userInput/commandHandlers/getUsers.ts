@@ -1,6 +1,6 @@
 import { getUsers } from "../../services/getUsers/service";
 
-export const getUsersHandler = async (args: string[]) => {
+export const getUsersHandler = async () => {
   try {
     let users = await getUsers();
 
