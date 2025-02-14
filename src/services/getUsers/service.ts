@@ -1,5 +1,5 @@
-import User from "../../models/Account";
+import User from "../../models/User";
 
-export const getUsers = async (userId: number) => {
-  return await User.findAll({ where: { id: userId }, raw: true });
+export const getUsers = async () => {
+  return await User.findAll({ raw: true });
 };
