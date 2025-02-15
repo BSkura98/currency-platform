@@ -1,9 +1,9 @@
-import { getHistory } from "../../services/getHistory/service";
+import { getOperationRecords } from "../../services/getOperationRecords/service";
 import { createHistoryLog } from "./utils/createHistoryLog";
 
 export const getHistoryHandler = async (args: string[]) => {
   try {
-    const operationRecords = await getHistory({
+    const operationRecords = await getOperationRecords({
       currencyName: args[1],
       startDate: args[2] ? new Date(args[2]) : undefined,
       endDate: args[3] ? new Date(args[3]) : undefined,

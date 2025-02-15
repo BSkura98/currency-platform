@@ -4,6 +4,8 @@ import Account from "../../models/Account";
 import Currency from "../../models/Currency";
 import { performTransaction } from "../../utils/performTransaction";
 import { createOperationRecord } from "../createOperationRecord/service";
+import { getAccount } from "../getAccount/service";
+import { getCurrency } from "../getCurrency/service";
 
 export const transfer = async (
   amount: number,
@@ -15,40 +17,25 @@ export const transfer = async (
     throw new BadRequestError("Amount must be a positive number");
   }
 
-  const currency = await Currency.findOne({
-    where: { name: currencyName },
+  const sourceAccount = await getAccount({
+    userId: sourceUserId,
+    currencyName,
   });
-  if (!currency) {
-    throw new NotFoundError("Currency with such name does not exist");
-  }
-
-  const sourceAccount = await Account.findOne({
-    where: { userId: sourceUserId, currencyName },
-  });
-  if (!sourceAccount) {
-    throw new NotFoundError(
-      "Account for given source user id has not been found"
-    );
-  }
   if (sourceAccount.dataValues.balance < amount) {
     throw new BadRequestError(
       "Amount to transfer is larger than the source account balance"
     );
   }
 
-  const targetAccount = await Account.findOne({
-    where: { userId: targetUserId, currencyName },
+  const targetAccount = await getAccount({
+    userId: targetUserId,
+    currencyName,
   });
-  if (!targetAccount) {
-    throw new NotFoundError(
-      "Account for given target user id has not been found"
-    );
-  }
 
   let updatedSourceAccount = await performTransaction(
     amount,
     "transfer",
-    currency,
+    currencyName,
     async (amountAfterCommission) => {
       let sourceAccountUpdated = await sourceAccount?.update({
         balance: sourceAccount.dataValues.balance - amount,

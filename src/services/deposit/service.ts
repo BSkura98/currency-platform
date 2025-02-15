@@ -1,9 +1,7 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { NotFoundError } from "../../errors/NotFoundError";
-import Account from "../../models/Account";
-import Currency from "../../models/Currency";
 import { performTransaction } from "../../utils/performTransaction";
 import { createOperationRecord } from "../createOperationRecord/service";
+import { getAccount } from "../getAccount/service";
 
 export const deposit = async (
   amount: number,
@@ -14,24 +12,12 @@ export const deposit = async (
     throw new BadRequestError("Amount must be a positive number");
   }
 
-  const currency = await Currency.findOne({
-    where: { name: currencyName },
-  });
-  if (!currency) {
-    throw new NotFoundError("Currency with such name does not exist");
-  }
+  const account = await getAccount({ userId, currencyName });
 
-  const account = await Account.findOne({
-    where: { userId, currencyName },
-  });
-  if (!account) {
-    throw new NotFoundError("Account has not been found");
-  }
-
-  let updatedAccount = await performTransaction(
+  return await performTransaction(
     amount,
     "deposit",
-    currency,
+    currencyName,
     async (amountAfterCommission: number) => {
       let updatedAccount = account?.update({
         balance: account.dataValues.balance + amountAfterCommission,
@@ -40,5 +26,4 @@ export const deposit = async (
       return updatedAccount;
     }
   );
-  return updatedAccount;
 };

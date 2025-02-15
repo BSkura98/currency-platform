@@ -13,7 +13,7 @@ interface Parameters {
   userId?: number;
 }
 
-export const getHistory = async ({
+export const getOperationRecords = async ({
   operationTypeName,
   currencyName,
   startDate,

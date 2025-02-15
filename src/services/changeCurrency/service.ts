@@ -1,10 +1,9 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { NotFoundError } from "../../errors/NotFoundError";
-import Account from "../../models/Account";
-import Currency from "../../models/Currency";
 import { calculateAmountInCurrency } from "../../utils/calculateAmountInCurrency";
 import { performTransaction } from "../../utils/performTransaction";
 import { createOperationRecord } from "../createOperationRecord/service";
+import { getAccount } from "../getAccount/service";
+import { getCurrency } from "../getCurrency/service";
 
 export const changeCurrency = async (
   sourceAmount: number,
@@ -16,45 +15,26 @@ export const changeCurrency = async (
     throw new BadRequestError("Amount must be a positive number");
   }
 
-  const sourceCurrency = await Currency.findOne({
-    where: { name: sourceCurrencyName },
-  });
-  if (!sourceCurrency) {
-    throw new NotFoundError(`Currency ${sourceCurrencyName} does not exist`);
-  }
+  const sourceCurrency = await getCurrency({ name: sourceCurrencyName });
+  const targetCurrency = await getCurrency({ name: targetCurrencyName });
 
-  const targetCurrency = await Currency.findOne({
-    where: { name: targetCurrencyName },
+  const sourceAccount = await getAccount({
+    userId,
+    currencyName: sourceCurrencyName,
   });
-  if (!targetCurrency) {
-    throw new NotFoundError(`Currency ${targetCurrencyName} does not exist`);
-  }
-
-  const sourceAccount = await Account.findOne({
-    where: { userId, currencyName: sourceCurrency.dataValues.name },
-  });
-  if (!sourceAccount) {
-    throw new NotFoundError(
-      "Account for given user and currency has not been found"
-    );
-  }
   if (sourceAccount.dataValues.balance < sourceAmount) {
     throw new BadRequestError("Amount is larger than the account balance");
   }
 
-  const targetAccount = await Account.findOne({
-    where: { userId, currencyName: targetCurrency.dataValues.name },
+  const targetAccount = await getAccount({
+    userId,
+    currencyName: targetCurrencyName,
   });
-  if (!targetAccount) {
-    throw new NotFoundError(
-      "Account for given user and currency has not been found"
-    );
-  }
 
   let updatedSourceAccount = await performTransaction(
     sourceAmount,
     "currency change",
-    sourceCurrency,
+    sourceCurrencyName,
     async (amountAfterCommission) => {
       let sourceAccountUpdated = await sourceAccount?.update({
         balance: sourceAccount.dataValues.balance - sourceAmount,

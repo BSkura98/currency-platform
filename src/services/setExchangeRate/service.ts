@@ -1,6 +1,7 @@
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import Currency from "../../models/Currency";
+import { getCurrency } from "../getCurrency/service";
 
 export const setExchangeRate = async (
   currencyName: string,
@@ -13,11 +14,7 @@ export const setExchangeRate = async (
     throw new BadRequestError("Exchange rate is not a proper number");
   }
 
-  const currency = await Currency.findOne({ where: { name: currencyName } });
-
-  if (!currency) {
-    throw new NotFoundError("The currency does not exist");
-  }
+  const currency = await getCurrency({ name: currencyName });
 
   return currency?.update({ exchangeRateToPLN: exchangeRateInPLN });
 };

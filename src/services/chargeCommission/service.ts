@@ -1,17 +1,11 @@
-import Currency from "../../models/Currency";
-import OperationType from "../../models/OperationType";
 import Profit from "../../models/Profit";
+import { getProfit } from "../getProfit/service";
 
 export const chargeCommission = async (
   amount: number,
-  operationName: string,
-  currency: Currency
+  operationTypeName: string,
+  currencyName: string
 ) => {
-  let profit = await Profit.findOne({
-    where: {
-      currencyName: currency.dataValues.name,
-      operationTypeName: operationName,
-    },
-  });
+  let profit = await getProfit({ currencyName, operationTypeName });
   return await profit?.update({ amount: profit.dataValues.amount + amount });
 };

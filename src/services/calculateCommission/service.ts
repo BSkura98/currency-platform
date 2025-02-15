@@ -1,11 +1,9 @@
-import OperationType from "../../models/OperationType";
+import { getOperationType } from "../gerOperationType/service";
 
 export const calculateCommission = async (
   amount: number,
-  operationName: string
+  operationTypeName: string
 ) => {
-  let operationType = await OperationType.findOne({
-    where: { name: operationName },
-  });
+  let operationType = await getOperationType({ name: operationTypeName });
   return amount * operationType?.dataValues.commission;
 };

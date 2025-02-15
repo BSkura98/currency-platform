@@ -1,9 +1,7 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { NotFoundError } from "../../errors/NotFoundError";
-import Account from "../../models/Account";
-import Currency from "../../models/Currency";
 import { performTransaction } from "../../utils/performTransaction";
 import { createOperationRecord } from "../createOperationRecord/service";
+import { getAccount } from "../getAccount/service";
 
 export const withdraw = async (
   amount: number,
@@ -14,19 +12,7 @@ export const withdraw = async (
     throw new BadRequestError("Amount must be a positive number");
   }
 
-  const currency = await Currency.findOne({
-    where: { name: currencyName },
-  });
-  if (!currency) {
-    throw new NotFoundError("Currency with such name does not exist");
-  }
-
-  const account = await Account.findOne({
-    where: { userId, currencyName },
-  });
-  if (!account) {
-    throw new NotFoundError("Account for given user has not been found");
-  }
+  const account = await getAccount({ userId, currencyName });
 
   if (account.dataValues.balance < amount) {
     throw new BadRequestError(
@@ -37,7 +23,7 @@ export const withdraw = async (
   let updatedAccount = await performTransaction(
     amount,
     "withdrawal",
-    currency,
+    currencyName,
     async () => {
       let updatedAccount = await account?.update({
         balance: account.dataValues.balance - amount,

@@ -1,6 +1,5 @@
 import { Model } from "sequelize";
 
-import Currency from "../models/Currency";
 import { calculateCommission } from "../services/calculateCommission/service";
 import sequelize from "../database/database";
 import { chargeCommission } from "../services/chargeCommission/service";
@@ -8,7 +7,7 @@ import { chargeCommission } from "../services/chargeCommission/service";
 export const performTransaction = async <T extends Model>(
   amount: number,
   operationName: string,
-  currency: Currency,
+  currencyName: string,
   operationFunction: (amountAfterCommission: number) => Promise<T>
 ) => {
   let commission = await calculateCommission(amount, operationName);
@@ -16,7 +15,7 @@ export const performTransaction = async <T extends Model>(
 
   const transaction = await sequelize.transaction();
   try {
-    await chargeCommission(commission, operationName, currency);
+    await chargeCommission(commission, operationName, currencyName);
 
     const result = operationFunction(amount);
     await transaction.commit();

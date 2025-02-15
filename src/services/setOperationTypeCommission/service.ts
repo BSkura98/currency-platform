@@ -1,6 +1,5 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { NotFoundError } from "../../errors/NotFoundError";
-import OperationType from "../../models/OperationType";
+import { getOperationType } from "../gerOperationType/service";
 
 export const setOperationTypeCommission = async (
   operationTypeName: string,
@@ -13,13 +12,7 @@ export const setOperationTypeCommission = async (
     throw new BadRequestError("Commission is not a proper number");
   }
 
-  const operationType = await OperationType.findOne({
-    where: { name: operationTypeName },
-  });
-
-  if (!operationType) {
-    throw new NotFoundError("Operation type with such name does not exist");
-  }
+  const operationType = await getOperationType({ name: operationTypeName });
 
   return operationType?.update({ commission });
 };
