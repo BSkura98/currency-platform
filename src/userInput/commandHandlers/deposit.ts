@@ -1,4 +1,4 @@
-import { deposit } from "../../services/deposit/service";
+import { deposit } from "../../services/Account/deposit/service";
 
 export const depositHandler = async (args: string[]) => {
   try {

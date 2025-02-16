@@ -1,4 +1,4 @@
-import { getAccounts } from "../../services/getAccounts/service";
+import { getAccounts } from "../../services/Account/getAccounts/service";
 
 export const getUserBalanceHandler = async (args: string[]) => {
   try {

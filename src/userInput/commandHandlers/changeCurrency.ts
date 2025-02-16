@@ -1,4 +1,4 @@
-import { changeCurrency } from "../../services/changeCurrency/service";
+import { changeCurrency } from "../../services/Account/changeCurrency/service";
 
 export const changeCurrencyHandler = async (args: string[]) => {
   try {

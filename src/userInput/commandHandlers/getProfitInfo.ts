@@ -1,4 +1,4 @@
-import { getProfits } from "../../services/getProfits/service";
+import { getProfits } from "../../services/Profit/getProfits/service";
 
 export const getProfitInfoHandler = async (args: string[]) => {
   try {

@@ -1,7 +1,7 @@
 import promptSync from "prompt-sync";
 
-import { setExchangeRate } from "../services/setExchangeRate/service";
-import { setOperationTypeCommission } from "../services/setOperationTypeCommission/service";
+import { setExchangeRate } from "../services/Currency/setExchangeRate/service";
+import { setOperationTypeCommission } from "../services/OperationType/setOperationTypeCommission/service";
 
 const prompt = promptSync({ sigint: true });
 

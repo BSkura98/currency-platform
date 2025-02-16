@@ -1,4 +1,4 @@
-import { transfer } from "../../services/transfer/service";
+import { transfer } from "../../services/Account/transfer/service";
 
 export const transferHandler = async (args: string[]) => {
   try {

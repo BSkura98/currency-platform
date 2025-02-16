@@ -1,4 +1,4 @@
-import { getOperationRecords } from "../../services/getOperationRecords/service";
+import { getOperationRecords } from "../../services/OperationRecord/getOperationRecords/service";
 import { createHistoryLog } from "./utils/createHistoryLog";
 
 export const getHistoryHandler = async (args: string[]) => {

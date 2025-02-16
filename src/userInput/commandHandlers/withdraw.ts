@@ -1,4 +1,4 @@
-import { withdraw } from "../../services/withdraw/service";
+import { withdraw } from "../../services/Account/withdraw/service";
 
 export const withdrawHandler = async (args: string[]) => {
   try {
