@@ -1,4 +1,4 @@
-import sequelize from "../database/database";
+import sequelize from "./database";
 
 export const performTransaction = async <T>(callback: () => T) => {
   const transaction = await sequelize.transaction();

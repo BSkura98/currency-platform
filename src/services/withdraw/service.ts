@@ -1,5 +1,5 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { performTransaction } from "../../utils/performTransaction";
+import { performTransaction } from "../../database/performTransaction";
 import { chargeCommission } from "../chargeCommission/service";
 import { getAccount } from "../getAccount/service";
 import { updateAccountBalance } from "../updateAccountBalance/service";

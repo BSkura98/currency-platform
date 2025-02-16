@@ -3,14 +3,14 @@ import { createOperationRecord } from "../createOperationRecord/service";
 
 export const updateAccountBalance = async (
   account: Account,
-  amount: number,
+  balanceChange: number,
   operationTypeName?: string
 ) => {
   let updatedAccount = await account.update({
-    balance: account.dataValues.balance + amount,
+    balance: account.dataValues.balance + balanceChange,
   });
   if (operationTypeName) {
-    await createOperationRecord(amount, account, operationTypeName);
+    await createOperationRecord(balanceChange, account, operationTypeName);
   }
   return updatedAccount;
 };

@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../errors/BadRequestError";
 import { calculateAmountInCurrency } from "../../utils/calculateAmountInCurrency";
-import { performTransaction } from "../../utils/performTransaction";
+import { performTransaction } from "../../database/performTransaction";
 import { chargeCommission } from "../chargeCommission/service";
 import { getAccount } from "../getAccount/service";
 import { getCurrency } from "../getCurrency/service";
