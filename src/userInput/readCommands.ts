@@ -36,6 +36,8 @@ export const readCommands = async () => {
     if (firstArg in operations) {
       // @ts-ignore
       await operations[firstArg](args);
+    } else if (firstArg === "exit") {
+      break;
     } else {
       console.log("Wrong command");
     }

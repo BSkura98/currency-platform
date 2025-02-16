@@ -7,7 +7,8 @@
 - getUserHistory <user id> - get history for all user accounts
 - getProfitInfo <currency?> - get information about platform profit
 - getUsers - get ids for all users
-- help
+- help - display list of commands
+- exit - exit the program
 Available currencies: PLN, USD, EUR
 Operation names for getHistory command: deposit, withdrawal, transfer, currency change
 Keep in mind that a commission is charged on each amount for deposit, withdrawal, transfer and currency change!
