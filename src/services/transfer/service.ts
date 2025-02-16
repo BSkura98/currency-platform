@@ -1,11 +1,8 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { NotFoundError } from "../../errors/NotFoundError";
-import Account from "../../models/Account";
-import Currency from "../../models/Currency";
 import { performTransaction } from "../../utils/performTransaction";
-import { createOperationRecord } from "../createOperationRecord/service";
+import { chargeCommission } from "../chargeCommission/service";
 import { getAccount } from "../getAccount/service";
-import { getCurrency } from "../getCurrency/service";
+import { updateAccountBalance } from "../updateAccountBalance/service";
 
 export const transfer = async (
   amount: number,
@@ -32,26 +29,17 @@ export const transfer = async (
     currencyName,
   });
 
-  let updatedSourceAccount = await performTransaction(
-    amount,
-    "transfer",
-    currencyName,
-    async (amountAfterCommission) => {
-      let sourceAccountUpdated = await sourceAccount?.update({
-        balance: sourceAccount.dataValues.balance - amount,
-      });
-      await targetAccount?.update({
-        balance: targetAccount.dataValues.balance + amountAfterCommission,
-      });
-      await createOperationRecord(-amount, sourceAccount, "transfer");
-      await createOperationRecord(
-        amountAfterCommission,
-        targetAccount,
-        "transfer"
-      );
-      return sourceAccountUpdated;
-    }
-  );
-
-  return updatedSourceAccount;
+  return performTransaction(async () => {
+    const amountAfterCommission = await chargeCommission(
+      amount,
+      "transfer",
+      currencyName
+    );
+    await updateAccountBalance(
+      targetAccount,
+      amountAfterCommission,
+      "transfer"
+    );
+    return updateAccountBalance(sourceAccount, -amount, "transfer");
+  });
 };

@@ -1,17 +1,18 @@
 import { BadRequestError } from "../../errors/BadRequestError";
 import { calculateAmountInCurrency } from "../../utils/calculateAmountInCurrency";
 import { performTransaction } from "../../utils/performTransaction";
-import { createOperationRecord } from "../createOperationRecord/service";
+import { chargeCommission } from "../chargeCommission/service";
 import { getAccount } from "../getAccount/service";
 import { getCurrency } from "../getCurrency/service";
+import { updateAccountBalance } from "../updateAccountBalance/service";
 
 export const changeCurrency = async (
-  sourceAmount: number,
+  sourceCurrencyAmount: number,
   userId: number,
   sourceCurrencyName: string,
   targetCurrencyName: string
 ) => {
-  if (sourceAmount < 0 || isNaN(sourceAmount)) {
+  if (sourceCurrencyAmount < 0 || isNaN(sourceCurrencyAmount)) {
     throw new BadRequestError("Amount must be a positive number");
   }
 
@@ -22,7 +23,7 @@ export const changeCurrency = async (
     userId,
     currencyName: sourceCurrencyName,
   });
-  if (sourceAccount.dataValues.balance < sourceAmount) {
+  if (sourceAccount.dataValues.balance < sourceCurrencyAmount) {
     throw new BadRequestError("Amount is larger than the account balance");
   }
 
@@ -31,36 +32,25 @@ export const changeCurrency = async (
     currencyName: targetCurrencyName,
   });
 
-  let updatedSourceAccount = await performTransaction(
-    sourceAmount,
-    "currency change",
-    sourceCurrencyName,
-    async (amountAfterCommission) => {
-      let sourceAccountUpdated = await sourceAccount?.update({
-        balance: sourceAccount.dataValues.balance - sourceAmount,
-      });
-      await targetAccount?.update({
-        balance:
-          targetAccount.dataValues.balance +
-          calculateAmountInCurrency(
-            sourceCurrency,
-            targetCurrency,
-            amountAfterCommission
-          ),
-      });
-      await createOperationRecord(
-        -sourceAmount,
-        sourceAccount,
-        "currency change"
-      );
-      await createOperationRecord(
-        amountAfterCommission,
-        targetAccount,
-        "currency change"
-      );
-      return sourceAccountUpdated;
-    }
-  );
-
-  return updatedSourceAccount;
+  return performTransaction(async () => {
+    const amountAfterCommission = await chargeCommission(
+      sourceCurrencyAmount,
+      "currency change",
+      sourceCurrencyName
+    );
+    await updateAccountBalance(
+      targetAccount,
+      calculateAmountInCurrency(
+        sourceCurrency,
+        targetCurrency,
+        amountAfterCommission
+      ),
+      "currency change"
+    );
+    return await updateAccountBalance(
+      sourceAccount,
+      -sourceCurrencyAmount,
+      "currency change"
+    );
+  });
 };

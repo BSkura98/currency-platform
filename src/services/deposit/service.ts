@@ -1,7 +1,8 @@
 import { BadRequestError } from "../../errors/BadRequestError";
 import { performTransaction } from "../../utils/performTransaction";
-import { createOperationRecord } from "../createOperationRecord/service";
+import { chargeCommission } from "../chargeCommission/service";
 import { getAccount } from "../getAccount/service";
+import { updateAccountBalance } from "../updateAccountBalance/service";
 
 export const deposit = async (
   amount: number,
@@ -14,16 +15,12 @@ export const deposit = async (
 
   const account = await getAccount({ userId, currencyName });
 
-  return await performTransaction(
-    amount,
-    "deposit",
-    currencyName,
-    async (amountAfterCommission: number) => {
-      let updatedAccount = account?.update({
-        balance: account.dataValues.balance + amountAfterCommission,
-      });
-      await createOperationRecord(amount, account, "deposit");
-      return updatedAccount;
-    }
-  );
+  return await performTransaction(async () => {
+    const amountAfterCommission = await chargeCommission(
+      amount,
+      "deposit",
+      currencyName
+    );
+    return updateAccountBalance(account, amountAfterCommission, "deposit");
+  });
 };
