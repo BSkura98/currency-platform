@@ -9,6 +9,10 @@ dotenv.config();
 sequelize.sync().then(async () => {
   console.log("Database is ready");
 
-  await readInitialData();
-  await readCommands();
+  try {
+    await readInitialData();
+    await readCommands();
+  } catch (error: any) {
+    console.log(error.message);
+  }
 });

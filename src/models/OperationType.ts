@@ -7,7 +7,7 @@ class OperationType extends Model {}
 OperationType.init(
   {
     name: { type: DataTypes.STRING, unique: true },
-    commission: { type: DataTypes.FLOAT },
+    commissionRate: { type: DataTypes.FLOAT },
   },
   {
     sequelize,

@@ -20,19 +20,20 @@ There are 4 operations for which the platform charges a commission:
 
 Keep in mind that amount entered in command is the amount before charging commission!
 
-Most commands require user id parameter. There are 5 users initially created by `npm run resetDatabase` with ids from 1 to 5, but just in case there is `getUsers` command which allows you to list ids of all users.
+Most commands require user id parameter. There are 5 users initially created by `npm run resetDatabase` who should have ids from 1 to 5, but just in case there is `getUsers` command which allows you to list ids of all users.
 
 ## Commands
-- `deposit <amount> <user id> <currency>` - deposit money in given currency to the user with given id
-- `withdraw <amount> <user id> <currency>` - withdraw money in given currency from the user with given id
-- `transfer <amount> <source user id> <target user id> <currency>` - transfer money in the given currency from the source user to the target user
-- `changeCurrency <amount> <user id> <currency from> <currency to>` - change currency for the given user
-- `getHistory <currency?> <start date?> <end date?> <operation name?>` - get history with optional filter parameters
+- `deposit <amount> <currency> <user id>` - deposit money in given currency to the user with given id
+- `withdraw <amount> <currency> <user id>` - withdraw money in given currency from the user with given id
+- `transfer <amount> <currency> <source user id> <target user id>` - transfer money in the given currency from the source user to the target user
+- `changeCurrency <amount> <currency from> <currency to> <user id>` - change currency for the given user
+- `getHistory <currency?> <start date?> <end date?> <operation name?>` - get history with optional filter parameters (to omit a parameter you can pass `-`) (dates should be in ISO format, for example `2025-02-14T19:00:00` or just `2025-02-14`)
 - `getUserBalance <user id>` - get balances in all currencies for the user
 - `getUserHistory <user id>` - get history for all user accounts
 - `getProfitInfo <currency?>` - get information about platform profit
 - `getUsers` - get ids for all users
-- `help`
+- `help` - display list of commands
+- `exit` - exit the program
 
 Available currencies: PLN, USD, EUR
 

@@ -1,14 +1,17 @@
 import { getOperationRecords } from "../../services/OperationRecord/getOperationRecords/service";
 import { createHistoryLog } from "./utils/createHistoryLog";
 
-export const getHistoryHandler = async (args: string[]) => {
+export const getUserHistoryHandler = async (args: string[]) => {
   try {
+    if (isNaN(Number(args[1]))) {
+      throw new Error("user id must be a valid number");
+    }
     const operationRecords = await getOperationRecords({
-      currencyName: args[1] === "-" ? undefined : args[1],
-      startDate: args[2] && args[2] !== "-" ? new Date(args[2]) : undefined,
-      endDate: args[3] && args[3] !== "-" ? new Date(args[3]) : undefined,
-      operationTypeName: args.length > 4 ? args.splice(4).join(" ") : undefined,
+      userId: Number(args[1]),
     });
+    if (operationRecords.length === 0) {
+      console.log("No history found for given user id");
+    }
     operationRecords.forEach((operationRecord) =>
       console.log(createHistoryLog(operationRecord))
     );
