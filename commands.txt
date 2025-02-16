@@ -1,7 +1,7 @@
-- deposit <amount> <user id> <currency> - deposit money in given currency to the user with given id
-- withdraw <amount> <user id> <currency> - withdraw money in given currency from the user with given id
-- transfer <amount> <source user id> <target user id> <currency> - transfer money in the given currency from the source user to the target user
-- changeCurrency <amount> <user id> <currency from> <currency to> - change currency for the given user
+- deposit <amount> <currency> <user id> - deposit money in given currency to the user with given id
+- withdraw <amount> <currency> <user id> - withdraw money in given currency from the user with given id
+- transfer <amount> <currency> <source user id> <target user id> - transfer money in the given currency from the source user to the target user
+- changeCurrency <amount> <currency from> <currency to> <user id> - change currency for the given user
 - getHistory <currency?> <start date?> <end date?> <operation name?> - get history with optional filter parameters
 - getUserBalance <user id> - get balances in all currencies for the user
 - getUserHistory <user id> - get history for all user accounts
