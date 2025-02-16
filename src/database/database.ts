@@ -7,6 +7,7 @@ const sequelize = new Sequelize(
   {
     dialect: "sqlite",
     host: "./dev.sqlite",
+    logging: false,
   }
 );
 
