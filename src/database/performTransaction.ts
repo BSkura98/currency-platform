@@ -1,9 +1,9 @@
 import sequelize from "./database";
 
-export const performTransaction = async <T>(callback: () => T) => {
+export const performTransaction = async <T>(databaseOperation: () => T) => {
   const transaction = await sequelize.transaction();
   try {
-    const result = callback();
+    const result = databaseOperation();
     await transaction.commit();
     return result;
   } catch (error) {
