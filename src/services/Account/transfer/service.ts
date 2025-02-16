@@ -4,6 +4,8 @@ import { chargeCommission } from "../../Profit/chargeCommission/service";
 import { getAccount } from "../getAccount/service";
 import { updateAccountBalance } from "../updateAccountBalance/service";
 
+const operation = "transfer";
+
 export const transfer = async (
   amount: number,
   sourceUserId: number,
@@ -32,14 +34,10 @@ export const transfer = async (
   return performTransaction(async () => {
     const amountAfterCommission = await chargeCommission(
       amount,
-      "transfer",
+      operation,
       currencyName
     );
-    await updateAccountBalance(
-      targetAccount,
-      amountAfterCommission,
-      "transfer"
-    );
-    return updateAccountBalance(sourceAccount, -amount, "transfer");
+    await updateAccountBalance(targetAccount, amountAfterCommission, operation);
+    return updateAccountBalance(sourceAccount, -amount, operation);
   });
 };

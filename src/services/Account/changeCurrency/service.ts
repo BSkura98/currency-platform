@@ -6,6 +6,8 @@ import { getAccount } from "../getAccount/service";
 import { getCurrency } from "../../Currency/getCurrency/service";
 import { updateAccountBalance } from "../updateAccountBalance/service";
 
+const operation = "currency change";
+
 export const changeCurrency = async (
   sourceCurrencyAmount: number,
   userId: number,
@@ -35,7 +37,7 @@ export const changeCurrency = async (
   return performTransaction(async () => {
     const amountAfterCommission = await chargeCommission(
       sourceCurrencyAmount,
-      "currency change",
+      operation,
       sourceCurrencyName
     );
     await updateAccountBalance(
@@ -45,12 +47,12 @@ export const changeCurrency = async (
         targetCurrency,
         amountAfterCommission
       ),
-      "currency change"
+      operation
     );
     return await updateAccountBalance(
       sourceAccount,
       -sourceCurrencyAmount,
-      "currency change"
+      operation
     );
   });
 };

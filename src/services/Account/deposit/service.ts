@@ -4,6 +4,8 @@ import { chargeCommission } from "../../Profit/chargeCommission/service";
 import { getAccount } from "../getAccount/service";
 import { updateAccountBalance } from "../updateAccountBalance/service";
 
+const operation = "deposit";
+
 export const deposit = async (
   amount: number,
   userId: number,
@@ -18,9 +20,9 @@ export const deposit = async (
   return await performTransaction(async () => {
     const amountAfterCommission = await chargeCommission(
       amount,
-      "deposit",
+      operation,
       currencyName
     );
-    return updateAccountBalance(account, amountAfterCommission, "deposit");
+    return updateAccountBalance(account, amountAfterCommission, operation);
   });
 };
