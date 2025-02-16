@@ -8,6 +8,6 @@ export const chargeCommission = async (
 ) => {
   let commission = await calculateCommission(amount, operationTypeName);
   let profit = await getProfit({ currencyName, operationTypeName });
-  await profit?.update({ amount: profit.dataValues.amount + amount });
+  await profit?.update({ amount: profit.dataValues.amount + commission });
   return amount - commission;
 };
