@@ -5,5 +5,5 @@ export const calculateCommission = async (
   operationTypeName: string
 ) => {
   let operationType = await getOperationType({ name: operationTypeName });
-  return amount * operationType?.dataValues.commission;
+  return amount * operationType?.dataValues.commissionRate;
 };
