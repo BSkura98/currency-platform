@@ -1,5 +1,5 @@
 import { BadRequestError } from "../../errors/BadRequestError";
-import { getOperationType } from "../gerOperationType/service";
+import { getOperationType } from "../getOperationType/service";
 
 export const setOperationTypeCommission = async (
   operationTypeName: string,

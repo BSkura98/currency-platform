@@ -1,4 +1,4 @@
-import { getOperationType } from "../gerOperationType/service";
+import { getOperationType } from "../getOperationType/service";
 
 export const calculateCommission = async (
   amount: number,

@@ -5,7 +5,7 @@ import { withdrawHandler } from "./commandHandlers/withdraw";
 import { transferHandler } from "./commandHandlers/transfer";
 import { getHistoryHandler } from "./commandHandlers/getHistory";
 import { getUserBalanceHandler } from "./commandHandlers/getUserBalance";
-import { getAccountHistoryHandler } from "./commandHandlers/getAccountHistory";
+import { getUserHistoryHandler } from "./commandHandlers/getAccountHistory";
 import { getProfitInfoHandler } from "./commandHandlers/getProfitInfo";
 import { getUsersHandler } from "./commandHandlers/getUsers";
 import { helpHandler } from "./commandHandlers/help";
@@ -20,7 +20,7 @@ const operations = {
   changeCurrency: changeCurrencyHandler,
   getHistory: getHistoryHandler,
   getUserBalance: getUserBalanceHandler,
-  getUserHistory: getAccountHistoryHandler,
+  getUserHistory: getUserHistoryHandler,
   getProfitInfo: getProfitInfoHandler,
   getUsers: getUsersHandler,
   help: helpHandler,

@@ -1,8 +1,11 @@
 import { getOperationRecords } from "../../services/getOperationRecords/service";
 import { createHistoryLog } from "./utils/createHistoryLog";
 
-export const getAccountHistoryHandler = async (args: string[]) => {
+export const getUserHistoryHandler = async (args: string[]) => {
   try {
+    if (isNaN(Number(args[1]))) {
+      throw new Error("user id must be a valid number");
+    }
     const operationRecords = await getOperationRecords({
       userId: Number(args[1]),
     });
